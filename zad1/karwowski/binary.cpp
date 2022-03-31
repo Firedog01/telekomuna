@@ -15,7 +15,7 @@ BinaryVector multiplyMatrixByVector(const BinaryMatrix& matrix, const BinaryVect
     return result;
 }
 
-BinaryVector codeWord(const BinaryVector& word, const BinaryMatrix& matrix){
+BinaryVector encodeBits(const BinaryVector& word, const BinaryMatrix& matrix){
     int numberOfParityBits = matrix.size();
     BinaryVector encoded(word);
     encoded.insert(encoded.end(), numberOfParityBits, 0);
@@ -28,7 +28,7 @@ BinaryVector codeWord(const BinaryVector& word, const BinaryMatrix& matrix){
     return encoded;
 }
 
-BinaryVector decodeWord(const BinaryVector& word, const BinaryMatrix& matrix){
+BinaryVector decodeBits(const BinaryVector& word, const BinaryMatrix& matrix){
     const int numberOfColumns = 8 + matrix.size();
     const int numberOfRows = matrix.size();
     //create errorVector and check

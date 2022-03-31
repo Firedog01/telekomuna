@@ -8,9 +8,9 @@ typedef std::vector<byte> ByteVector;
 
 BinaryVector multiplyMatrixByVector(const BinaryMatrix& matrix, const BinaryVector& vector);
 
-BinaryVector codeWord(const BinaryVector& word, const BinaryMatrix& matrix);
+BinaryVector encodeBits(const BinaryVector& word, const BinaryMatrix& matrix);
 
-BinaryVector decodeWord(const BinaryVector& word, const BinaryMatrix& matrix);
+BinaryVector decodeBits(const BinaryVector& word, const BinaryMatrix& matrix);
 
 ByteVector codeBytes(const ByteVector& bytes, const BinaryMatrix& matrix);
 

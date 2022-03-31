@@ -112,16 +112,6 @@ bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
     return decoded;
 }
 
-std::string encodeByte(char c) {
-    bitRow bits = charToBitRow(c);
-    bitRow encoded = encodeBits(bits, H_MATRIX);
-    return bitRowToStr(encoded);
-}
-
-char decodeByte(std::string encoded) {
-
-}
-
 bitRow charToBitRow(char c) {
     bitRow vector(8);
     for(int i = 7; i >= 0; i--)
@@ -132,7 +122,7 @@ bitRow charToBitRow(char c) {
 std::string bitRowToStr(bitRow bits) {
     std::stringstream ss;
     for(bool bit : bits)
-        ss << ('0' + (char) bit);
+        ss << bit;
     return ss.str();
 }
 
@@ -147,13 +137,15 @@ bitRow strToBitRow(std::string s) {
 
 char bitRowToChar(bitRow bits) {
     char c = 0;
-    bitRow::iterator itbit = bits.begin();
-    for(int i = 7; i >= 0; i--)
-        c |= (itbit[7 - i]) << i;
+    auto itbit = bits.begin();
+    for(int i = 7; i >= 0; i--) {
+
+	}
+        c |= (bits[7 - i]) << i;
     return c;
 }
 
-void encodeFile(const std::string& filename)
+void encodeFile(std::string filename)
 {
     std::ifstream file (filename);
     std::ofstream encoded ("../encoded.txt");
@@ -161,12 +153,24 @@ void encodeFile(const std::string& filename)
     while (file.get(c)) {
         bitRow row = charToBitRow(c);
         row = encodeBits(row, H_MATRIX);
+		encoded << bitRowToStr(row) << "\n";
     }
     file.close();
     encoded.close();
 }
 
-void decodeFile(const std::string& filename)
+void decodeFile(std::string filename)
 {
-
+	std::ifstream file (filename);
+	std::ofstream decoded ("../decoded.txt");
+	std::string line;
+	while (std::getline(file, line)) {
+		if(line == "\n")
+			break;
+		bitRow row = strToBitRow(line);
+		row = decodeBits(row, H_MATRIX);
+		decoded << bitRowToChar(row);
+	}
+	file.close();
+	decoded.close();
 }

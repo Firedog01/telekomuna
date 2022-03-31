@@ -15,9 +15,6 @@ bitRow multiplyMatrixByRow(const bitMatrix& matrix, const bitRow& row);
 bitRow encodeBits(const bitRow &word, const bitMatrix &matrix);
 bitRow decodeBits(const bitRow &word, const bitMatrix &matrix);
 
-std::string encodeByte(char c);
-char decodeByte(std::string encoded);
-
 bitRow charToBitRow(char c);
 std::string bitRowToStr(bitRow bits);
 bitRow strToBitRow(std::string s);

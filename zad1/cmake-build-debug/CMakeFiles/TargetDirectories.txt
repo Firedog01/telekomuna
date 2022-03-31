@@ -1,3 +1,3 @@
-/home/liptonleon/git/telekomuna/zad1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/liptonleon/git/telekomuna/zad1/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/liptonleon/git/telekomuna/zad1/cmake-build-debug/CMakeFiles/zad1.dir
+C:/Users/janru/Programowanie/telekomuna/zad1/cmake-build-debug/CMakeFiles/zad1.dir
+C:/Users/janru/Programowanie/telekomuna/zad1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/janru/Programowanie/telekomuna/zad1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

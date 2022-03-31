@@ -1,6 +1,7 @@
+#include <iostream>
 #include "util.h"
 
-bitMatrix H_MATRIX {
+bitMatrix H_MATRIX({
         {0, 1, 1, 1, 1, 1, 1, 1,	1, 0, 0, 0, 0, 0, 0, 0},
         {1, 0, 1, 1, 1, 1, 1, 1,	0, 1, 0, 0, 0, 0, 0, 0},
         {1, 1, 0, 1, 1, 1, 1, 1,	0, 0, 1, 0, 0, 0, 0, 0},
@@ -9,7 +10,7 @@ bitMatrix H_MATRIX {
         {1, 1, 1, 1, 1, 0, 1, 1,	0, 0, 0, 0, 0, 1, 0, 0},
         {1, 1, 1, 1, 1, 1, 0, 1,	0, 0, 0, 0, 0, 0, 1, 0},
         {1, 1, 1, 1, 1, 1, 1, 0,	0, 0, 0, 0, 0, 0, 0, 1},
-};
+});
 
 
 bitRow multiplyMatrixByRow(const bitMatrix& matrix, const bitRow& row) {
@@ -127,21 +128,22 @@ std::string bitRowToStr(bitRow bits) {
 }
 
 bitRow strToBitRow(std::string s) {
-    bitRow bits(8);
-    auto it = s.begin();
-    auto bitit = bits.begin();
-    for(int i = 0; i < 8; i++, it++, bitit++)
-        *bitit = (bool) (*it - '0');
+    bitRow bits(24);
+	auto sit = s.begin();
+	auto bitit = bits.begin();
+    for(int i = 0; i < 24; i++, sit++, bitit++) {
+		bool b = (bool) (*sit - '0');
+		std::cout << b <<'\n';
+		*bitit = b;
+	}
     return bits;
 }
 
 char bitRowToChar(bitRow bits) {
     char c = 0;
-    auto itbit = bits.begin();
-    for(int i = 7; i >= 0; i--) {
-
+    for(uint8_t i = 7; i >= 0; i--) {
+		c = (char) (c | (bits[7 - i] << i));
 	}
-        c |= (bits[7 - i]) << i;
     return c;
 }
 

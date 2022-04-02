@@ -152,6 +152,10 @@ void encodeFile(std::string filename)
     std::ifstream file (filename);
     std::ofstream encoded ("../encoded.txt");
     char c;
+    if (!file.is_open()) {
+        std::cout << "Błędna nazwa pliku do zakodowania!\n";
+        return;
+    }
     while (file.get(c)) {
         bitRow row = charToBitRow(c);
         row = encodeBits(row, H_MATRIX);
@@ -159,6 +163,7 @@ void encodeFile(std::string filename)
     }
     file.close();
     encoded.close();
+    std::cout << "Zakodowany plik: ./encoded.txt\n";
 }
 
 void decodeFile(std::string filename)
@@ -166,6 +171,10 @@ void decodeFile(std::string filename)
 	std::ifstream file (filename);
 	std::ofstream decoded ("../decoded.txt");
 	std::string line;
+    if (!file.is_open()) {
+        std::cout << "Błędna nazwa pliku do zdekodowania!\n";
+        return;
+    }
 	while (std::getline(file, line)) {
 		if(line == "\n")
 			break;
@@ -175,4 +184,5 @@ void decodeFile(std::string filename)
 	}
 	file.close();
 	decoded.close();
+    std::cout << "Zdekodowany plik: ./decoded.txt\n";
 }

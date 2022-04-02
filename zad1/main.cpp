@@ -15,10 +15,8 @@ int main (int argc, char** args)
         string filename(args[2]);
         if (command == "encode") {
             encodeFile(filename);
-			cout << "Zakodowany plik: ./encoded.txt\n";
         } else if (command == "decode") {
             decodeFile(filename);
-			cout << "Zdekodowany plik: ./decoded.txt\n";
         } else {
             cout << "Błędne polecenie! (Wymagane: encode/decode)";
         }
@@ -35,12 +33,10 @@ int main (int argc, char** args)
                 cout << "\nNazwa pliku do zakodowania: ";
                 cin >> selection;
 				encodeFile(selection);
-                cout << "Zakodowany plik: ../encoded.txt\n";
             } else if (selection == "2") {
                 cout << "\nNazwa pliku do odkodowania: ";
                 cin >> selection;
 				decodeFile(selection);
-                cout << "Zdekodowany plik: ../decoded.txt\n";
             } else if (selection == "0") {
                 break;
             } else {

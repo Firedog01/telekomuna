@@ -32,9 +32,6 @@ bitRow encodeBits(const bitRow &word, const bitMatrix &matrix) {
     bitRow parityBits = multiplyMatrixByRow(matrix, encoded);
     encoded.erase(encoded.end() - numberOfParityBits, encoded.end());
     encoded.insert(encoded.end(), parityBits.begin(), parityBits.end());
-    //-----
-    //cout << "Kodowanie słowa: " << word << "  --->  " << encoded << endl;
-    //-----
     return encoded;
 }
 
@@ -50,9 +47,6 @@ bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
             break;
         }
     }
-    //-----
-    //cout << "errorVector: " << errorVector << endl;
-    //-----
     int errorBitNumber = -1;
     int errorBitNumber1 = -1;
     int errorBitNumber2 = -1;
@@ -98,10 +92,10 @@ bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
     //decode and repair
     int numberOfParityBits = (int) matrix.size();
     bitRow decoded(word);
-    if(errorBitNumber != -1){
+    if(errorBitNumber != -1) {
         //korekcja jednego błędu
         decoded[errorBitNumber] = !decoded[errorBitNumber];
-    }else if(errorBitNumber1 != -1 && errorBitNumber2 != -1){
+    } else if(errorBitNumber1 != -1 && errorBitNumber2 != -1){
         //korekcja dwóch błędów
         decoded[errorBitNumber1] = !decoded[errorBitNumber1];
         decoded[errorBitNumber2] = !decoded[errorBitNumber2];
@@ -114,9 +108,10 @@ bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
 }
 
 bitRow charToBitRow(char c) {
-    bitRow vector(8);
-    for(int i = 7; i >= 0; i--)
-        vector.push_back(c & (1 << i) );
+    bitRow vector;
+	auto it = vector.begin();
+    for(int i = 7; i >= 0; i--, it++)
+        vector.push_back(c & (1 << i));
     return vector;
 }
 

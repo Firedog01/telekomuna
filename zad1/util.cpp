@@ -93,17 +93,14 @@ bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
     int numberOfParityBits = (int) matrix.size();
     bitRow decoded(word);
     if(errorBitNumber != -1) {
-        //korekcja jednego błędu
+        std::cout << "korekcja jednego bledu\n";
         decoded[errorBitNumber] = !decoded[errorBitNumber];
     } else if(errorBitNumber1 != -1 && errorBitNumber2 != -1){
-        //korekcja dwóch błędów
-        decoded[errorBitNumber1] = !decoded[errorBitNumber1];
+		std::cout << "korekcja dwoch bledow\n";
+		decoded[errorBitNumber1] = !decoded[errorBitNumber1];
         decoded[errorBitNumber2] = !decoded[errorBitNumber2];
     }
     decoded.erase(decoded.end() - numberOfParityBits, decoded.end());
-    //-----
-    //cout << "Dekodowanie słowa: " << word << "  --->  " << decoded << endl;
-    //-----
     return decoded;
 }
 
@@ -123,12 +120,11 @@ std::string bitRowToStr(bitRow bits) {
 }
 
 bitRow strToBitRow(std::string s) {
-    bitRow bits(24);
+    bitRow bits(16);
 	auto sit = s.begin();
 	auto bitit = bits.begin();
-    for(int i = 0; i < 24; i++, sit++, bitit++) {
+    for(int i = 0; i < 16; i++, sit++, bitit++) {
 		bool b = (bool) (*sit - '0');
-		std::cout << b <<'\n';
 		*bitit = b;
 	}
     return bits;
@@ -136,7 +132,7 @@ bitRow strToBitRow(std::string s) {
 
 char bitRowToChar(bitRow bits) {
     char c = 0;
-    for(uint8_t i = 7; i >= 0; i--) {
+    for(int i = 7; i >= 0; i--) {
 		c = (char) (c | (bits[7 - i] << i));
 	}
     return c;

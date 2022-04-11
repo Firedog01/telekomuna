@@ -65,65 +65,34 @@ bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
 
 bitRow getBitCol(const bitMatrix& matrix, int idx) {
 	bitRow ret = bitRow();
-	for (int i = 0; i < matrix.size(); i++) {
-		ret.push_back(matrix[i][idx]);
+	for(const auto & i : matrix) {
+		ret.push_back(i[idx]);
 	}
 	return ret;
 }
 
 bitRow getBitColSum(const bitMatrix& matrix, int idx, int idy) {
 	bitRow ret = bitRow();
-	for (int i = 0; i < matrix.size(); i++) {
-		ret.push_back(matrix[i][idx] ^ matrix[i][idy]);
+	for(const auto & i : matrix) {
+		ret.push_back(i[idx] ^ i[idy]);
 	}
 	return ret;
 }
 
 int getSameColIdx(const bitRow& errorVector, const bitMatrix& matrix) {
-	bool same;
-	for(int j = 0; j < matrix[0].size(); j++) {
-		same = true;
-		for(int i = 0; i < matrix.size(); i++) {
-			if(matrix[i][j] != errorVector[i])
-				same = false;
+	for(int i = 0; i < matrix[0].size(); i++) {
+		if (getBitCol(matrix, i) == errorVector) {
+			return i;
 		}
-		if(same)
-			return j;
 	}
 	return -1;
 }
-/*
- *
-if(errorBitNumber == -1 && numberOfRows >= 7){
-           for(int j1 = 0; j1 < numberOfColumns; j1++){
-               bool identical;
-               for(int j2 = j1 + 1; j2 < numberOfColumns; j2++){
-                   identical = true;
-                   for(int i = 0; i < numberOfRows; i++){
-                       if((matrix[i][j1] ^ matrix[i][j2]) != errorVector[i]){
-                           identical = false;
-                           break;
-                       }
-                   }
-                   if(identical){
-                       errorBitNumber1 = j1;
-                       errorBitNumber2 = j2;
-                       break;
-                   }
-               }
-               if(identical){
-                   break;
-               }
-           }
-       }
-   }
 
- */
 std::pair<int, int> getSameColIdxes(const bitRow& errorVector, const bitMatrix& matrix) {
 	for (int i = 0; i < matrix[0].size(); i++) {
 		for(int j = i + 1; j < matrix[0].size(); j++) {
-			if() {
-
+			if(getBitColSum(matrix, i, j) == errorVector) {
+				return std::make_pair(i, j);
 			}
 		}
 	}

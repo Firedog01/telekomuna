@@ -1,6 +1,6 @@
 #include <iostream>
 #include "util.h"
-
+// 0111010010101111 # T 01010100
 bitMatrix H_MATRIX({
         {0, 1, 1, 1, 1, 1, 1, 1,	1, 0, 0, 0, 0, 0, 0, 0},
         {1, 0, 1, 1, 1, 1, 1, 1,	0, 1, 0, 0, 0, 0, 0, 0},
@@ -13,7 +13,7 @@ bitMatrix H_MATRIX({
 });
 
 
-bitRow multiplyMatrixByRow(const bitMatrix& matrix, const bitRow& row) {
+bitRow multiplyMatrixByColumn(const bitMatrix& matrix, const bitRow& row) {
     bitRow result;
     for(bitRow rowMatrix : matrix){
         bool rowResult = false;
@@ -29,79 +29,105 @@ bitRow encodeBits(const bitRow &word, const bitMatrix &matrix) {
     int numberOfParityBits = (int) matrix.size();
     bitRow encoded(word);
     encoded.insert(encoded.end(), numberOfParityBits, false);
-    bitRow parityBits = multiplyMatrixByRow(matrix, encoded);
+    bitRow parityBits = multiplyMatrixByColumn(matrix, encoded);
     encoded.erase(encoded.end() - numberOfParityBits, encoded.end());
     encoded.insert(encoded.end(), parityBits.begin(), parityBits.end());
     return encoded;
 }
 
 bitRow decodeBits(const bitRow &word, const bitMatrix &matrix) {
-    const int numberOfColumns = 8 + matrix.size();
-    const int numberOfRows = (int) matrix.size();
-    //create errorVector and check
-    bitRow errorVector = multiplyMatrixByRow(matrix, word);
-    bool correct = true;
-    for(bool b : errorVector){
-        if(b){
-            correct = false;
-            break;
+	const int numberOfRows = (int) matrix.size();
+	const int numberOfColumns = (int) matrix[0].size();
+	bitRow decoded(word);
+	bitRow errorVector = multiplyMatrixByColumn(matrix, word);
+
+	// if there is any error at least one of bits in vector will be lit up
+	auto itErr = errorVector.begin();
+	while(itErr != errorVector.end() && !*itErr)
+		itErr++;
+	if(itErr != errorVector.end()) { // there is some error
+
+		// searching matrix column identical with errorVector
+		int errIdx = getSameColIdx(errorVector, matrix);
+		if(errIdx != -1) { // one bit error
+			std::cout << "korekcja jednego bledu pod indeksem: " << errIdx << '\n';
+			decoded[errIdx] = !(decoded[errIdx]);
+		} else { // two bit errors
+			auto idxes = getSameColIdxes(errorVector, matrix);
+			std::cout << "korekcja dwoch bledow\n";
+			decoded[idxes.first] = !(decoded[idxes.first]);
+			decoded[idxes.second] = !(decoded[idxes.second]);
         }
     }
-    int errorBitNumber = -1;
-    int errorBitNumber1 = -1;
-    int errorBitNumber2 = -1;
-    if(!correct){
-        //searching matrix column identical with errorVector
-        for(int j = 0; j < numberOfColumns; j++){
-            bool identical = true;
-            for(int i = 0; i < numberOfRows; i++){
-                if(matrix[i][j] != errorVector[i]){
-                    identical = false;
-                    break;
-                }
-            }
-            if(identical){
-                errorBitNumber = j;
-                break;
-            }
-        }
-        //searching matrix columns which sum equals errorVector
-        if(errorBitNumber == -1 && numberOfRows >= 7){
-            for(int j1 = 0; j1 < numberOfColumns; j1++){
-                bool identical;
-                for(int j2 = j1 + 1; j2 < numberOfColumns; j2++){
-                    identical = true;
-                    for(int i = 0; i < numberOfRows; i++){
-                        if((matrix[i][j1] ^ matrix[i][j2]) != errorVector[i]){
-                            identical = false;
-                            break;
-                        }
-                    }
-                    if(identical){
-                        errorBitNumber1 = j1;
-                        errorBitNumber2 = j2;
-                        break;
-                    }
-                }
-                if(identical){
-                    break;
-                }
-            }
-        }
-    }
-    //decode and repair
-    int numberOfParityBits = (int) matrix.size();
-    bitRow decoded(word);
-    if(errorBitNumber != -1) {
-        std::cout << "korekcja jednego bledu\n";
-        decoded[errorBitNumber] = !decoded[errorBitNumber];
-    } else if(errorBitNumber1 != -1 && errorBitNumber2 != -1){
-		std::cout << "korekcja dwoch bledow\n";
-		decoded[errorBitNumber1] = !decoded[errorBitNumber1];
-        decoded[errorBitNumber2] = !decoded[errorBitNumber2];
-    }
-    decoded.erase(decoded.end() - numberOfParityBits, decoded.end());
+    decoded.erase(decoded.end() - numberOfRows, decoded.end());
     return decoded;
+}
+
+bitRow getBitCol(const bitMatrix& matrix, int idx) {
+	bitRow ret = bitRow();
+	for (int i = 0; i < matrix.size(); i++) {
+		ret.push_back(matrix[i][idx]);
+	}
+	return ret;
+}
+
+bitRow getBitColSum(const bitMatrix& matrix, int idx, int idy) {
+	bitRow ret = bitRow();
+	for (int i = 0; i < matrix.size(); i++) {
+		ret.push_back(matrix[i][idx] ^ matrix[i][idy]);
+	}
+	return ret;
+}
+
+int getSameColIdx(const bitRow& errorVector, const bitMatrix& matrix) {
+	bool same;
+	for(int j = 0; j < matrix[0].size(); j++) {
+		same = true;
+		for(int i = 0; i < matrix.size(); i++) {
+			if(matrix[i][j] != errorVector[i])
+				same = false;
+		}
+		if(same)
+			return j;
+	}
+	return -1;
+}
+/*
+ *
+if(errorBitNumber == -1 && numberOfRows >= 7){
+           for(int j1 = 0; j1 < numberOfColumns; j1++){
+               bool identical;
+               for(int j2 = j1 + 1; j2 < numberOfColumns; j2++){
+                   identical = true;
+                   for(int i = 0; i < numberOfRows; i++){
+                       if((matrix[i][j1] ^ matrix[i][j2]) != errorVector[i]){
+                           identical = false;
+                           break;
+                       }
+                   }
+                   if(identical){
+                       errorBitNumber1 = j1;
+                       errorBitNumber2 = j2;
+                       break;
+                   }
+               }
+               if(identical){
+                   break;
+               }
+           }
+       }
+   }
+
+ */
+std::pair<int, int> getSameColIdxes(const bitRow& errorVector, const bitMatrix& matrix) {
+	for (int i = 0; i < matrix[0].size(); i++) {
+		for(int j = i + 1; j < matrix[0].size(); j++) {
+			if() {
+
+			}
+		}
+	}
+	return std::make_pair(-1, -1);
 }
 
 bitRow charToBitRow(char c) {

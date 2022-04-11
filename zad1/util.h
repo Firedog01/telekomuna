@@ -7,13 +7,17 @@
 #include <fstream>
 
 
-typedef std::vector<bool> bitRow; // we are aware
+typedef std::vector<bool> bitRow;
 typedef std::vector<std::vector<bool>> bitMatrix;
 
 
-bitRow multiplyMatrixByRow(const bitMatrix& matrix, const bitRow& row);
+bitRow multiplyMatrixByColumn(const bitMatrix& matrix, const bitRow& row);
 bitRow encodeBits(const bitRow &word, const bitMatrix &matrix);
 bitRow decodeBits(const bitRow &word, const bitMatrix &matrix);
+
+bitRow getBitRow(const bitMatrix& matrix, int idx);
+int getSameColIdx(const bitRow& errorVector, const bitMatrix& matrix);
+std::pair<int, int> getSameColIdxes(const bitRow& errorVector, const bitMatrix& matrix);
 
 bitRow charToBitRow(char c);
 std::string bitRowToStr(bitRow bits);

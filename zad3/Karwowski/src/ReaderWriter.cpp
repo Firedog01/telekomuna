@@ -1,15 +1,15 @@
-#include "ReaderWriter.h"
+#include "../include/ReaderWriter.h"
 using namespace std;
 
 ReaderWriter::ReaderWriter(string portName){
 	//otwieranie portu
 	com = CreateFile(("\\\\.\\" + portName).c_str(),
-			GENERIC_READ | GENERIC_WRITE,
-			0,
-			NULL,
-			OPEN_EXISTING,
-			0,
-			NULL);
+					 GENERIC_READ | GENERIC_WRITE,
+					 0,
+					 NULL,
+					 OPEN_EXISTING,
+					 0,
+					 NULL);
 	if(com == INVALID_HANDLE_VALUE)
 		throw OpeningPortError("Can't open port: " + portName);
 
@@ -36,10 +36,10 @@ ReaderWriter::ReaderWriter(string portName){
 void ReaderWriter::write(unsigned char byte){
 	DWORD noOfBytesWritten = 0;
 	WriteFile(com,
-		&byte,
-		sizeof(byte),
-		&noOfBytesWritten,
-		NULL);
+			  &byte,
+			  sizeof(byte),
+			  &noOfBytesWritten,
+			  NULL);
 	if(noOfBytesWritten != sizeof(byte)){
 		throw ConnectionBrokenError("Can't write byte!");
 	}
@@ -49,10 +49,10 @@ int ReaderWriter::read(){
 	unsigned char tmp;
 	DWORD noOfBytesRead = 0;
 	ReadFile(com,
-		&tmp,
-		sizeof(tmp),
-		&noOfBytesRead,
-		NULL);
+			 &tmp,
+			 sizeof(tmp),
+			 &noOfBytesRead,
+			 NULL);
 	if(noOfBytesRead == 0){
 		return -1;
 	}

@@ -1,5 +1,5 @@
 #include "ReaderWriter.h"
-#include <ncurses\curses.h>
+#include <curses.h>
 #include <iostream>
 using namespace std;
 

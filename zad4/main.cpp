@@ -1,7 +1,6 @@
 #include <iostream>
-#include <Windows.h>
+#include <windows.h>
 #include "mmsystem.h"
-#include <cstdio>
 #include <filesystem>
 
 using namespace std;

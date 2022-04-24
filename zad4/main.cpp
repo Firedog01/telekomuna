@@ -8,6 +8,8 @@ using namespace std;
 
 string getPathFromUser();
 void recordSound();
+void playSound(string file_path);
+string sendMci(string command);
 
 int main() {
 	char in;
@@ -18,9 +20,9 @@ int main() {
 	} else {
 		string path = getPathFromUser();
 		cout << "Playing " << path << '\n';
-		PlaySound(TEXT(path.c_str()), NULL, NULL);
-		system("pause");
+		playSound(path);
 	}
+	system("pause");
 	return 0;
 }
 
@@ -31,7 +33,8 @@ string getPathFromUser() {
 	uint8_t i = 0;
 	for (const filesystem::directory_entry & entry : filesystem::directory_iterator(path)) {
 		s = entry.path().string();
-		cout << +i++ << ". " << s.substr(s.find_last_of('\\') + 1) << '\n';
+		s = s.substr(s.find_last_of('\\') + 1);
+		cout << +i++ << ". " << s << '\n';
 		dir_paths.push_back(entry.path());
 	}
 
@@ -42,27 +45,28 @@ string getPathFromUser() {
 	return dir_paths.at(no_file).string();
 }
 
+void playSound(string file_path) {
+	sendMci("open waveaudio!" + file_path + " alias myaudio");
+	sendMci("play myaudio wait");
+	sendMci("close myaudio wait");
+}
+
 void recordSound() {
-	char ReturnString[300];
+	sendMci("open new type waveaudio alias rec");
+	sendMci("set rec time format ms");
+	sendMci("record rec notify");
 
-	// Otwarcie procedury.
-	mciSendString("open new type waveaudio alias rec", ReturnString, sizeof(ReturnString), NULL);
-
-	// Ustawienie formatu czasu na milisekundy.
-	mciSendString("set rec time format ms", ReturnString, sizeof(ReturnString), NULL);
-
-	// Nagrywanie.
-	mciSendString("record rec notify", ReturnString, sizeof(ReturnString), NULL);
 	cout << "Recording! Press any key to stop. \n";
 	{ getchar(); getchar(); }
 
-	//Zatrzymanie nagrywania.
-	mciSendString("stop rec", ReturnString, sizeof(ReturnString), NULL);
-
-	// Zapisywanie do pliku WAV.
-	mciSendString("save rec ../sound_files/record.wav", ReturnString, sizeof(ReturnString), NULL);
-
-	// Zamknięcie procedury.
-	mciSendString("close rec", ReturnString, sizeof(ReturnString), NULL);
+	sendMci("stop rec");
+	sendMci("save rec ../sound_files/record.wav");
+	sendMci("close rec");
 	cout << "Recording saved as record.wav\n";
+}
+
+string sendMci(string command) {
+	char ret[255];
+	mciSendString(command.c_str(), ret, sizeof(ret), NULL);
+	return {ret};
 }

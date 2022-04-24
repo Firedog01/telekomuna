@@ -36,9 +36,7 @@ string getPathFromUser() {
 		cout << +i++ << ". " << s << '\n';
 		dir_paths.push_back(entry.path());
 	}
-
 	cout << "Choose number: ";
-
 	cin >> s;
 	int no_file = stoi(s);
 	return dir_paths.at(no_file).string();
@@ -54,7 +52,6 @@ void recordSound() {
 	sendMci("open new type waveaudio alias rec");
 	sendMci("set rec time format ms");
 	sendMci("record rec notify");
-
 	cout << "Recording! Press any key to stop. \n";
 	{ getchar(); getchar(); }
 

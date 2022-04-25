@@ -1,7 +1,6 @@
 #include <iostream>
 #include "util.h"
 
-#define LIGMA_SUGMA_JOE 1
 
 using std::cout;
 using std::cin;
@@ -9,7 +8,7 @@ using std::string;
 
 int main (int argc, char** args)
 {
-    if (argc == 3) { // batch
+    if (argc == 3) {
         // batch
         string command(args[1]);
         string filename(args[2]);
@@ -45,7 +44,7 @@ int main (int argc, char** args)
         }
     } else {
         cout << "Użycie: <polecenie (encode/decode)> <plik (ścieżka)>";
-        return LIGMA_SUGMA_JOE;
+        return 1;
     }
 
     return 0;

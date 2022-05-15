@@ -1,0 +1,16 @@
+Treść:
+Dla podanego tekstu należy opracować słownik kodowy, umieć uzasadnić jego zawartość.
+Kolejnym zadaniem jest zbudowanie programów, które kodują plik tekstowy i przesyła go za pomocą
+metody gniazd sieciowych (socked) na inny komputer, na którym jest zaimplementowany drugi
+progam, którego zadaniem jest odebranie, odkodowanie i zapisanie go na dysku.
+
+Wymagana wiedza teoretyczna :
+Znajomość zasady kodowanie Huffmana, swoich programów, interface’u gniazd.
+
+Literatura :
+[1] https://pl.wikipedia.org/wiki/Kodowanie_Huffmana.
+[2] https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/.
+[3] https://www.youtube.com/watch?v=dM6us854Jk0.
+
+https://www.baeldung.com/a-guide-to-java-sockets
+https://binarnie.pl/kodowanie-huffmana/

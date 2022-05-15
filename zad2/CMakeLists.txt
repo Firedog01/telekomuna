@@ -3,4 +3,4 @@ project(zad2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(zad2 main.cpp)
+add_executable(zad2 Anon/main.cpp include/Transmitter.h)

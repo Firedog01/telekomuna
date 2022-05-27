@@ -1,25 +1,21 @@
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Recorder {
 
-    // record duration, in milliseconds
-    static final long recordTime = 10000;	// 10 sec
-
-    // format of audio file
+    // Format of audio file
     static AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
-    // the line from which audio data is captured
+    // Line from which audio data is captured
     static TargetDataLine line;
 
-    /**
-     * Defines an audio format
-     */
+    // Defines an audio format
     private static AudioFormat getAudioFormat() {
-        float sampleRate = 16000;
-        int sampleSizeInBits = 8;
-        int channels = 2;
+        float sampleRate = 44100; // Próbkowanie
+        int sampleSizeInBits = 32; // Kwantyzacja
+        int channels = 1;
         boolean signed = true;
         boolean bigEndian = true;
         return new AudioFormat(sampleRate, sampleSizeInBits,
@@ -31,32 +27,31 @@ public class Recorder {
             AudioFormat format = getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
             File wavFile = new File("../sound_files/" + fileName + ".wav");
-            // checks if system supports the data line
+            // Checks if system supports the data line
             if (!AudioSystem.isLineSupported(info)) {
                 System.out.println("Line not supported");
-                System.exit(0);
+                return;
             }
+
+            // Start capturing
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format);
-            line.start();	// start capturing
-
+            line.start();
             System.out.println("Start capturing...");
 
+            // Start recording
             AudioInputStream ais = new AudioInputStream(line);
+            System.out.println("Start recording...");
 
-            System.out.println("Start recording...\n");
-
+            // Pressing enter ends recording
             Thread stopper = new Thread(() -> {
-                try {
-                    Thread.sleep(recordTime);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+                Scanner in = new Scanner(System.in);
+                in.nextLine();
                 Recorder.finish();
             });
-
-            // start recording
             stopper.start();
+            System.out.print("Press enter to end recording");
+
             AudioSystem.write(ais, fileType, wavFile);
 
         } catch (LineUnavailableException | IOException e) {
@@ -64,9 +59,7 @@ public class Recorder {
         }
     }
 
-    /**
-     * Closes the target data line to finish capturing and recording
-     */
+    // Closes the target data line to finish capturing and recording
     private static void finish() {
         line.stop();
         line.close();

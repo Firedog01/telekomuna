@@ -44,7 +44,7 @@ public class Recorder {
 
             AudioInputStream ais = new AudioInputStream(line);
 
-            System.out.println("Start recording...");
+            System.out.println("Start recording...\n");
 
             Thread stopper = new Thread(() -> {
                 try {
@@ -70,7 +70,6 @@ public class Recorder {
     private static void finish() {
         line.stop();
         line.close();
-        System.out.println("Finished");
     }
 
 }

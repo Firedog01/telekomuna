@@ -32,10 +32,12 @@ public class TUI {
             listFileNames();
             System.out.print("Play > ");
             input = in.nextLine();
-            if(!input.equals("q")) {
+            if(input.equals("?"))
+                System.out.println("\nCommands:\n\tq - Quit submenu\t? - Get help");
+            else if(!input.equals("q")) {
                 try {
                     int id = Integer.parseInt(input);
-                    Player.select(audioFiles[id-1]);
+                    Player.select(audioFiles[id - 1]);
                     Player.play();
                 } catch (Exception e) {
                     System.out.println("Invalid audio file!");
@@ -46,8 +48,8 @@ public class TUI {
 
     private static void record() {
         do {
-            System.out.println("Type r to start recording!");
-            System.out.print("\nRecord > ");
+            System.out.println("\nType r to start recording!");
+            System.out.print("Record > ");
             input = in.nextLine();
             if(input.equals("r")) {
                 try {
@@ -57,7 +59,8 @@ public class TUI {
                 } catch (Exception e) {
                     System.out.println("Exception occured!");
                 }
-            }
+            } else if (input.equals("?"))
+                System.out.println("\nCommands:\n\tr - Record new audio file\n\tq - Quit submenu\t? - Get help");
         } while (!input.equals("q"));
     }
 

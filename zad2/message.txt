@@ -1,0 +1,20 @@
+• transmisja jest inicjowana przez odbiornik, który wysyła znak NAK w odstępach co 10
+sekund przez okres jednej minuty. W tym czasie nadajnik musi rozpocząć przesyłanie
+pierwszego bloku danych,
+•
+    • transferowany plik dzieli się na bloki o długości 128 bajtów,
+    • bloki, na które podzielony został plik, transmituje się kolejno jeden za drugim po otrzymaniu
+      potwierdzenia poprawności przesłania poprzedniego bloku,
+• każdy przesyłany blok zaopatrywany jest w nagłówek składający się ze znaku SOH, numeru
+bloku (1 bajt) oraz dopełnienia tego bloku do 255 ( 255 – numer bloku),
+• po przesłaniu nagłówka dokonywane jest przesłanie bloku danych, a następnie sumy
+kontrolnej (checksum) definiowanej jako suma algebraiczna poszczególnych bajtów danych
+bez przeniesienia (w wersji podstawowej protokołu),
+• w trakcie odbierania bloku odbiornik wylicza sumę kontrolną, a następnie porównuje ją z
+sumą obliczoną przez nadajnik. Jeżeli obie sumy kontrolne zgadzają się, odbiornik wysyła
+potwierdzenie znakiem ACK, co dla nadajnika jest sygnałem do przesłania następnego bloku
+danych. W przypadku, gdy sumy kontrolne wyliczone przez odbiornik i nadajnik są różne,
+odbiornik wysyła znak NAK i nadajnik ponawia transmisję błędnie przesłanego bloku
+danych,
+• po przesłaniu ostatniego bajtu danych nadajnik wysyła znak EOT i ewentualnie ponawia
+wysyłanie EOT do otrzymania potwierdzenia znakiem ACK ze strony odbiornika

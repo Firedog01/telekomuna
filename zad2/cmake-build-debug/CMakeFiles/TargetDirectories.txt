@@ -1,3 +1,3 @@
-/home/liptonleon/git/telekomuna/zad2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/liptonleon/git/telekomuna/zad2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/liptonleon/git/telekomuna/zad2/cmake-build-debug/CMakeFiles/zad2.dir
+C:/Users/janru/Programowanie/telekomunikacja/zad2/cmake-build-debug/CMakeFiles/zad2.dir
+C:/Users/janru/Programowanie/telekomunikacja/zad2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/janru/Programowanie/telekomunikacja/zad2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

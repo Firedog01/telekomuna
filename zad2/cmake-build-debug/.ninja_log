@@ -1,0 +1,12 @@
+# ninja log v5
+4	1685	6755666473992675	CMakeFiles/zad2.dir/receiver.cpp.obj	f405b25d8c70b6db
+4	1741	6755200150393306	CMakeFiles/zad2.dir/main.cpp.obj	41368bc6ab35befa
+1856	2182	6756015667170947	zad2.exe	e0a99180d8d1cdce
+1	248	6756204641111968	build.ninja	49fabc0d6d374d86
+4	1855	6756015663929935	CMakeFiles/zad2.dir/sender.cpp.obj	dc4321be4ee49d22
+22	1430	6755640004559546	CMakeFiles/zad2.dir/utility.cpp.obj	fdbdbfe207f7859d
+27	1656	6756204749444076	CMakeFiles/zad2.dir/utility.cpp.obj	7d6d107b5185b2be
+19	1979	6756204752672935	CMakeFiles/zad2.dir/sender.cpp.obj	e92134ac42c8a1dd
+5	2073	6756204753618554	CMakeFiles/zad2.dir/main.cpp.obj	fd58fc58b6eab354
+24	2172	6756204754614243	CMakeFiles/zad2.dir/receiver.cpp.obj	a0a997f49d62b687
+2172	2323	6756204756100014	zad2.exe	851e0ca34cd18ad6

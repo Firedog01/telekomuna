@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="zad2" type="CompoundRunConfigurationType">
+    <toRun name="1 send" targetId="CMakeBuildProfile:Debug" type="CMakeRunConfiguration" />
+    <toRun name="2 recieve" targetId="CMakeBuildProfile:Debug" type="CMakeRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>
